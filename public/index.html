@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Simple App</title>
+</head>
+<body>
+  <h1>Hello from Frontend</h1>
+  <button id="fetchBtn">Fetch from Backend</button>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("fetchBtn").addEventListener("click", async () => {
+      const res = await fetch("/api/hello");
+      const data = await res.json();
+      document.getElementById("result").innerText = data.message;
+    });
+  </script>
+</body>
+</html>
