@@ -17,11 +17,27 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Coffee shop detail routes (we'll add these next)
+// Coffee shop detail routes
 app.get('/coffee-shops/:id', (req, res) => {
     const shopId = req.params.id;
-    // We'll implement this logic next
-    res.sendFile(path.join(__dirname, 'public', 'detail.html'));
+    
+    // Valid coffee shop IDs
+    const validShops = [
+        'blue-bottle', 
+        'local-grounds', 
+        'rustic-roasters', 
+        'sunrise-cafe', 
+        'mountain-peak', 
+        'espresso-express'
+    ];
+    
+    // Check if the shop ID is valid
+    if (validShops.includes(shopId)) {
+        res.sendFile(path.join(__dirname, 'public', 'detail.html'));
+    } else {
+        // Invalid shop ID - serve 404
+        res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+    }
 });
 
 // 404 handler - must be last
