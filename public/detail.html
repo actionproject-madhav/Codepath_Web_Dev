@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Coffee Shop Details - Coffee Spots</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="container">
+        <ul>
+            <li><strong>☕ Coffee Spots</strong></li>
+        </ul>
+        <ul>
+            <li><a href="/">← Back to All Shops</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <article id="coffee-detail">
+            <!-- Content will be loaded by JavaScript -->
+            <div class="loading">
+                <p aria-busy="true">Loading coffee shop details...</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="container">
+        <small>☕ Coffee Spots - Discover your perfect brew © 2025</small>
+    </footer>
+
+    <script src="/js/script.js"></script>
+    <script>
+        // Load the specific coffee shop details when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const pathParts = window.location.pathname.split('/');
+            const shopId = pathParts[pathParts.length - 1];
+            loadCoffeeShopDetail(shopId);
+        });
+    </script>
+</body>
+</html>

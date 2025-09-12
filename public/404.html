@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found - Coffee Spots</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="container">
+        <ul>
+            <li><strong>☕ Coffee Spots</strong></li>
+        </ul>
+        <ul>
+            <li><a href="/">Home</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="error-page">
+            <hgroup>
+                <h1>404 ☕</h1>
+                <h2>Oops! This coffee shop doesn't exist</h2>
+            </hgroup>
+            
+            <p>Looks like you've wandered into uncharted coffee territory. The page you're looking for might have been moved, deleted, or maybe it never existed in the first place.</p>
+            
+            <div class="coffee-suggestions">
+                <h3>Why not try one of these instead?</h3>
+                <div class="actions">
+                    <a href="/" role="button">☕ Browse All Coffee Shops</a>
+                    <a href="/coffee-shops/blue-bottle" role="button" class="secondary">Try Blue Bottle Coffee</a>
+                </div>
+            </div>
+
+            <details>
+                <summary>Need help?</summary>
+                <p>If you think this is a mistake or you followed a broken link, please go back to our <a href="/">homepage</a> and try navigating from there.</p>
+            </details>
+        </section>
+    </main>
+
+    <footer class="container">
+        <small>☕ Coffee Spots - Discover your perfect brew © 2025</small>
+    </footer>
+
+    <style>
+        .error-page {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .error-page h1 {
+            font-size: 4rem;
+            margin-bottom: 0;
+        }
+        
+        .coffee-suggestions {
+            margin: 2rem 0;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .actions a {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</body>
+</html>

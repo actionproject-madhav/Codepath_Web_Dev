@@ -1,0 +1,217 @@
+/* Custom styles for Coffee Shops Listicle */
+
+/* General Layout */
+body {
+    background-color: #faf8f3;
+    color: #3c2415;
+}
+
+nav {
+    background-color: #6b4423;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+nav strong {
+    color: #f4f1eb;
+    font-size: 1.2rem;
+}
+
+nav a {
+    color: #e8d5b7;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #f4f1eb;
+}
+
+/* Header Styling */
+header hgroup h1 {
+    color: #3c2415;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header hgroup h2 {
+    color: #8b6f47;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+/* Coffee Cards Grid */
+.coffee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.coffee-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.coffee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(60, 36, 21, 0.15);
+    border-color: #d4a574;
+}
+
+.coffee-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-content h3 {
+    color: #3c2415;
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.card-content p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.card-content p strong {
+    color: #6b4423;
+}
+
+.card-content small {
+    color: #8b6f47;
+    font-style: italic;
+    display: block;
+    margin-top: 1rem;
+    line-height: 1.4;
+}
+
+/* Detail Page Styles */
+#coffee-detail {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.detail-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.detail-image {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 2rem auto;
+    display: block;
+    box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
+}
+
+.detail-info {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
+    margin: 2rem 0;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.info-item {
+    background: #faf8f3;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #d4a574;
+}
+
+.info-item strong {
+    color: #6b4423;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+/* Footer */
+footer {
+    background-color: #3c2415;
+    color: #e8d5b7;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+/* Price indicators */
+.price-1 { color: #22c55e; } /* Green for $ */
+.price-2 { color: #eab308; } /* Yellow for $$ */
+.price-3 { color: #ef4444; } /* Red for $$$ */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .coffee-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    header hgroup h1 {
+        font-size: 2rem;
+    }
+    
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Accessibility */
+.coffee-card:focus {
+    outline: 3px solid #d4a574;
+    outline-offset: 2px;
+}
+
+/* Animation for cards loading */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.coffee-card {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.coffee-card:nth-child(2) { animation-delay: 0.1s; }
+.coffee-card:nth-child(3) { animation-delay: 0.2s; }
+.coffee-card:nth-child(4) { animation-delay: 0.3s; }
+.coffee-card:nth-child(5) { animation-delay: 0.4s; }
+.coffee-card:nth-child(6) { animation-delay: 0.5s; }
