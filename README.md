@@ -10,7 +10,7 @@ A modern web application showcasing the best coffee shops in the city with detai
 - Modern glassmorphism UI design
 - Fast loading with optimized images
 
-  ![Uploading Screenshot 2025-09-18 at 1.23.12 PM.png…]()
+<img width="1346" height="754" alt="Screenshot 2025-09-18 at 1 23 12 PM" src="https://github.com/user-attachments/assets/c13747ae-fbc5-435c-a417-ee5fa2ab1756" />
 
 
 ## Technologies Used
