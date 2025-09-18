@@ -1,3 +1,5 @@
+// Client-side JavaScript - should be in public/js/script.js
+
 // Coffee Shops Data
 const coffeeShops = {
     'blue-bottle': {
@@ -116,149 +118,270 @@ const coffeeShops = {
     }
 };
 
-// Function to load coffee shop detail
-function loadCoffeeShopDetail(shopId) {
-    const detailContainer = document.getElementById('coffee-detail');
-    const pageTitle = document.getElementById('page-title');
+// Only run if we're in the browser
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     
-    // Check if shop exists
-    if (!coffeeShops[shopId]) {
-        detailContainer.innerHTML = `
+    // Utility functions
+    function safeGetElement(id, required = false) {
+        const element = document.getElementById(id);
+        if (required && !element) {
+            console.error(`Required element with ID '${id}' not found`);
+            return null;
+        }
+        return element;
+    }
+
+    function createErrorHTML(title, message, showBackButton = true) {
+        return `
             <div class="error-message">
-                <h2>Coffee Shop Not Found</h2>
-                <p>Sorry, we couldn't find information about this coffee shop.</p>
-                <a href="/" role="button">← Back to All Shops</a>
+                <h2>${title}</h2>
+                <p>${message}</p>
+                ${showBackButton ? '<a href="/" role="button">← Back to All Shops</a>' : ''}
             </div>
         `;
-        return;
     }
-    
-    const shop = coffeeShops[shopId];
-    
-    // Update page title
-    pageTitle.textContent = `${shop.name} - Coffee Spots`;
-    
-    // Create detail HTML
-    detailContainer.innerHTML = `
-        <div class="detail-header">
-            <h1>${shop.name}</h1>
-            <p class="lead">${shop.description}</p>
-        </div>
-        
-        <img src="${shop.image}" alt="${shop.name}" class="detail-image" 
-             onerror="this.src='https://via.placeholder.com/600x300?text=${encodeURIComponent(shop.name)}'">
-        
-        <div class="detail-info">
-            <h2>About ${shop.name}</h2>
-            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">${shop.fullDescription}</p>
-            
-            <div class="info-grid">
-                <div class="info-item">
-                    <strong>📍 Neighborhood</strong>
-                    ${shop.neighborhood}
-                </div>
-                
-                <div class="info-item">
-                    <strong>☕ Specialty</strong>
-                    ${shop.specialty}
-                </div>
-                
-                <div class="info-item">
-                    <strong>💰 Price Range</strong>
-                    ${shop.priceRange}
-                </div>
-                
-                <div class="info-item">
-                    <strong>🎵 Vibe</strong>
-                    ${shop.vibe}
-                </div>
-                
-                <div class="info-item">
-                    <strong>🕒 Hours</strong>
-                    ${shop.hours}
-                </div>
-                
-                <div class="info-item">
-                    <strong>📶 WiFi</strong>
-                    ${shop.wifi}
-                </div>
-                
-                <div class="info-item">
-                    <strong>🎯 Good For</strong>
-                    ${shop.goodFor}
-                </div>
-                
-                <div class="info-item">
-                    <strong>🚗 Parking</strong>
-                    ${shop.parking}
-                </div>
-            </div>
-            
-            <div style="margin-top: 2rem; padding: 1.5rem; background: #faf8f3; border-radius: 8px; border-left: 4px solid #d4a574;">
-                <h3 style="margin: 0 0 1rem 0; color: #6b4423;">⭐ Signature Drink</h3>
-                <p style="margin: 0; font-size: 1.1rem;"><strong>${shop.signatureDrink}</strong></p>
-            </div>
-            
-            <div style="margin-top: 2rem; padding: 1.5rem; background: #ffffff; border-radius: 8px; border: 1px solid #e8d5b7;">
-                <h3 style="margin: 0 0 1rem 0; color: #6b4423;">🏪 About This Location</h3>
-                <p style="margin: 0 0 1rem 0;"><strong>Founded:</strong> ${shop.founded}</p>
-                <p style="margin: 0; font-style: italic; color: #8b6f47;">${shop.atmosphere}</p>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin: 3rem 0;">
-            <a href="/" role="button" class="secondary">← Back to All Coffee Shops</a>
-        </div>
-    `;
-}
 
-// Function to get coffee shop ID from URL (for detail pages)
-function getCoffeeShopIdFromUrl() {
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[pathParts.length - 1];
-}
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 
-// Add some interactive features for the homepage
-document.addEventListener('DOMContentLoaded', function() {
-    // Add keyboard navigation for coffee cards
-    const coffeeCards = document.querySelectorAll('.coffee-card');
-    
-    coffeeCards.forEach(card => {
-        // Make cards focusable
-        card.setAttribute('tabindex', '0');
-        
-        // Add keyboard navigation
-        card.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                card.click();
+    function getCoffeeShopIdFromUrl() {
+        try {
+            const pathParts = window.location.pathname.split('/').filter(part => part);
+            
+            if (pathParts.length === 0) {
+                return null;
             }
-        });
+            
+            if (pathParts.length >= 1) {
+                return pathParts[pathParts.length - 1];
+            }
+            
+            return null;
+        } catch (error) {
+            console.error('Error parsing URL:', error);
+            return null;
+        }
+    }
+
+    function loadCoffeeShopDetail(shopId) {
+        const detailContainer = safeGetElement('coffee-detail', true);
+        const pageTitle = safeGetElement('page-title');
         
-        // Add loading states
-        card.addEventListener('click', function() {
-            card.style.opacity = '0.7';
-            card.style.transform = 'scale(0.98)';
-        });
-    });
-    
-    // Add smooth scrolling for any anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+        if (!detailContainer) {
+            console.error('Detail container not found');
+            return;
+        }
+        
+        if (!shopId || typeof shopId !== 'string') {
+            detailContainer.innerHTML = createErrorHTML(
+                'Invalid Coffee Shop',
+                'No coffee shop specified in the URL.'
+            );
+            return;
+        }
+        
+        if (!coffeeShops[shopId]) {
+            detailContainer.innerHTML = createErrorHTML(
+                'Coffee Shop Not Found',
+                `Sorry, we couldn't find information about "${shopId}". This coffee shop might not exist or the link might be broken.`
+            );
+            
+            if (pageTitle) {
+                pageTitle.textContent = 'Coffee Shop Not Found - Coffee Spots';
+            }
+            return;
+        }
+        
+        const shop = coffeeShops[shopId];
+        
+        try {
+            if (pageTitle) {
+                pageTitle.textContent = `${shop.name} - Coffee Spots`;
+            }
+            
+            detailContainer.innerHTML = `
+                <div class="detail-header">
+                    <h1>${escapeHtml(shop.name)}</h1>
+                    <p class="lead">${escapeHtml(shop.description)}</p>
+                </div>
+                
+                <img src="${escapeHtml(shop.image)}" alt="${escapeHtml(shop.name)}" class="detail-image" 
+                     onerror="this.src='https://via.placeholder.com/600x300/e5e5e5/1a1a1a?text=${encodeURIComponent(shop.name)}'; this.alt='${escapeHtml(shop.name)} - Image not available';">
+                
+                <div class="detail-info">
+                    <h2>About ${escapeHtml(shop.name)}</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">${escapeHtml(shop.fullDescription)}</p>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>📍 Neighborhood</strong>
+                            ${escapeHtml(shop.neighborhood)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>☕ Specialty</strong>
+                            ${escapeHtml(shop.specialty)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>💰 Price Range</strong>
+                            ${escapeHtml(shop.priceRange)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>🎵 Vibe</strong>
+                            ${escapeHtml(shop.vibe)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>🕒 Hours</strong>
+                            ${escapeHtml(shop.hours)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>📶 WiFi</strong>
+                            ${escapeHtml(shop.wifi)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>🎯 Good For</strong>
+                            ${escapeHtml(shop.goodFor)}
+                        </div>
+                        
+                        <div class="info-item">
+                            <strong>🚗 Parking</strong>
+                            ${escapeHtml(shop.parking)}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f8f8; border-radius: 4px; border-left: 3px solid #1a1a1a;">
+                        <h3 style="margin: 0 0 1rem 0; color: #1a1a1a;">⭐ Signature Drink</h3>
+                        <p style="margin: 0; font-size: 1.1rem;"><strong>${escapeHtml(shop.signatureDrink)}</strong></p>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: #ffffff; border-radius: 4px; border: 1px solid #e5e5e5;">
+                        <h3 style="margin: 0 0 1rem 0; color: #1a1a1a;">🏪 About This Location</h3>
+                        <p style="margin: 0 0 1rem 0;"><strong>Founded:</strong> ${escapeHtml(shop.founded)}</p>
+                        <p style="margin: 0; font-style: italic; color: #666666;">${escapeHtml(shop.atmosphere)}</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 3rem 0;">
+                    <a href="/" role="button" class="secondary">← Back to All Coffee Shops</a>
+                </div>
+            `;
+            
+        } catch (error) {
+            console.error('Error rendering coffee shop detail:', error);
+            detailContainer.innerHTML = createErrorHTML(
+                'Loading Error',
+                'Sorry, there was an error loading this coffee shop\'s details. Please try again.'
+            );
+        }
+    }
+
+    function setupHomepageInteractions() {
+        try {
+            const coffeeCards = document.querySelectorAll('.coffee-card');
+            
+            coffeeCards.forEach((card, index) => {
+                if (!card.getAttribute('tabindex')) {
+                    card.setAttribute('tabindex', '0');
+                }
+                
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
                 });
-            }
-        });
-    });
-});
+                
+                card.addEventListener('click', function(e) {
+                    try {
+                        if (card.classList.contains('loading')) {
+                            return;
+                        }
+                        
+                        card.classList.add('loading');
+                        card.style.opacity = '0.7';
+                        card.style.transform = 'scale(0.98)';
+                        
+                        setTimeout(() => {
+                            card.classList.remove('loading');
+                            card.style.opacity = '';
+                            card.style.transform = '';
+                        }, 3000);
+                        
+                    } catch (error) {
+                        console.error('Error handling card click:', error);
+                    }
+                });
+            });
+            
+        } catch (error) {
+            console.error('Error setting up homepage interactions:', error);
+        }
+    }
 
-// Export for use in detail pages (if needed)
-if (typeof window !== 'undefined') {
+    function initializePage() {
+        try {
+            document.body.classList.add('loaded');
+            
+            const pathParts = window.location.pathname.split('/').filter(part => part);
+            const isDetailPage = pathParts.some(part => part === 'coffee-shops') || 
+                                (pathParts.length === 1 && pathParts[0] !== 'index.html');
+            
+            if (isDetailPage) {
+                const shopId = getCoffeeShopIdFromUrl();
+                if (shopId) {
+                    loadCoffeeShopDetail(shopId);
+                }
+            }
+            
+            setupHomepageInteractions();
+            
+        } catch (error) {
+            console.error('Error initializing page:', error);
+            document.body.classList.add('loaded');
+        }
+    }
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', initializePage);
+
+    // Handle browser navigation
+    window.addEventListener('popstate', initializePage);
+
+    // Handle page visibility
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && !document.body.classList.contains('loaded')) {
+            document.body.classList.add('loaded');
+        }
+    });
+
+    // Global image error handling
+    document.addEventListener('error', function(e) {
+        if (e.target.tagName === 'IMG') {
+            const img = e.target;
+            if (!img.dataset.errorHandled) {
+                img.dataset.errorHandled = 'true';
+                const shopName = img.alt.replace(' - Image not available', '');
+                img.src = `https://via.placeholder.com/400x300/e5e5e5/1a1a1a?text=${encodeURIComponent(shopName)}`;
+                img.alt = `${shopName} - Image not available`;
+            }
+        }
+    }, true);
+
+    // Export for global access
     window.loadCoffeeShopDetail = loadCoffeeShopDetail;
     window.coffeeShops = coffeeShops;
+    window.getCoffeeShopIdFromUrl = getCoffeeShopIdFromUrl;
+}
+
+// For Node.js/server environments, export the data only
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { coffeeShops };
 }

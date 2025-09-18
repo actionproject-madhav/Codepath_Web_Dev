@@ -1,50 +1,78 @@
 const express = require('express');
 const path = require('path');
+const { coffeeShops } = require('./coffee-data.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware to serve static files
+// Middleware
 app.use(express.static('public'));
-
-// Set view engine (we'll use basic HTML files)
-app.use('/css', express.static(path.join(__dirname, 'public/css')));
-app.use('/js', express.static(path.join(__dirname, 'public/js')));
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use(express.json());
 
 // Routes
+// Home page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Coffee shop detail routes
-app.get('/coffee-shops/:id', (req, res) => {
-    const shopId = req.params.id;
+// Coffee shop detail pages
+app.get('/coffee-shops/:shopId', (req, res) => {
+    const shopId = req.params.shopId;
     
-    // Valid coffee shop IDs
-    const validShops = [
-        'blue-bottle', 
-        'local-grounds', 
-        'rustic-roasters', 
-        'sunrise-cafe', 
-        'mountain-peak', 
-        'espresso-express'
-    ];
-    
-    // Check if the shop ID is valid
-    if (validShops.includes(shopId)) {
+    // Check if coffee shop exists
+    if (coffeeShops[shopId]) {
         res.sendFile(path.join(__dirname, 'public', 'detail.html'));
     } else {
-        // Invalid shop ID - serve 404
         res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
     }
 });
 
-// 404 handler - must be last
+// API endpoint to get coffee shop data (optional)
+app.get('/api/coffee-shops', (req, res) => {
+    res.json(coffeeShops);
+});
+
+// API endpoint to get single coffee shop (optional)
+app.get('/api/coffee-shops/:shopId', (req, res) => {
+    const shopId = req.params.shopId;
+    
+    if (coffeeShops[shopId]) {
+        res.json(coffeeShops[shopId]);
+    } else {
+        res.status(404).json({ error: 'Coffee shop not found' });
+    }
+});
+
+// Handle 404s
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Server error:', err.stack);
+    res.status(500).send('Something went wrong!');
+});
+
+// Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    console.log('Available routes:');
+    console.log('  - http://localhost:' + PORT + '/');
+    console.log('  - http://localhost:' + PORT + '/coffee-shops/blue-bottle');
+    console.log('  - http://localhost:' + PORT + '/coffee-shops/local-grounds');
+    console.log('Available coffee shops:', Object.keys(coffeeShops).join(', '));
+});
+
+// Handle server shutdown gracefully
+process.on('SIGTERM', () => {
+    console.log('SIGTERM received, shutting down gracefully');
+    server.close(() => {
+        console.log('Process terminated');
+    });
+});
+
+process.on('SIGINT', () => {
+    console.log('SIGINT received, shutting down gracefully');
+    process.exit(0);
 });

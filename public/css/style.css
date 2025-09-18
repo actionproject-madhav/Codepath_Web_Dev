@@ -1,73 +1,126 @@
-/* Custom styles for Coffee Shops Listicle */
-
-/* General Layout */
-body {
-    background-color: #faf8f3;
-    color: #3c2415;
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navigation */
 nav {
-    background-color: #6b4423;
+    background-color: #1a1a1a;
     padding: 1rem 0;
-    margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #333;
+}
+
+nav .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin: 0;
 }
 
 nav strong {
-    color: #f4f1eb;
-    font-size: 1.2rem;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 nav a {
-    color: #e8d5b7;
+    color: #cccccc;
     text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s ease;
 }
 
 nav a:hover {
-    color: #f4f1eb;
+    color: #ffffff;
 }
 
-/* Header Styling */
-header hgroup h1 {
-    color: #3c2415;
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header */
+header {
+    padding: 3rem 0 2rem;
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 2rem;
+}
+
+header h1 {
     font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
     margin-bottom: 0.5rem;
 }
 
-header hgroup h2 {
-    color: #8b6f47;
+header h2 {
+    font-size: 1.125rem;
+    color: #666666;
     font-weight: 400;
-    font-size: 1.2rem;
 }
 
-/* Coffee Cards Grid */
+/* Coffee Grid */
 .coffee-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
     margin: 2rem 0;
 }
 
 .coffee-card {
     background: #ffffff;
-    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
-    transition: all 0.3s ease;
     cursor: pointer;
-    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    opacity: 1;
 }
 
 .coffee-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(60, 36, 21, 0.15);
-    border-color: #d4a574;
+    border-color: #1a1a1a;
+    transform: translateY(-2px);
+}
+
+.coffee-card:focus {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
 }
 
 .coffee-card img {
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
-    object-position: center;
+    display: block;
 }
 
 .card-content {
@@ -75,127 +128,282 @@ header hgroup h2 {
 }
 
 .card-content h3 {
-    color: #3c2415;
-    margin: 0 0 1rem 0;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
 }
 
 .card-content p {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
     font-size: 0.9rem;
-    line-height: 1.4;
+    color: #666666;
 }
 
 .card-content p strong {
-    color: #6b4423;
+    color: #1a1a1a;
+    font-weight: 500;
 }
 
 .card-content small {
-    color: #8b6f47;
-    font-style: italic;
     display: block;
     margin-top: 1rem;
+    color: #888888;
+    font-style: italic;
     line-height: 1.4;
 }
 
-/* Detail Page Styles */
+/* Detail page styles */
 #coffee-detail {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    padding: 2rem 0;
 }
 
 .detail-header {
     text-align: center;
     margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.detail-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.detail-header .lead {
+    font-size: 1.125rem;
+    color: #666666;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .detail-image {
     width: 100%;
-    max-width: 600px;
-    height: 300px;
+    max-width: 700px;
+    height: 400px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 8px;
     margin: 2rem auto;
     display: block;
-    box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
+    border: 1px solid #e5e5e5;
 }
 
 .detail-info {
     background: #ffffff;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(60, 36, 21, 0.1);
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
     margin: 2rem 0;
+}
+
+.detail-info h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
-    margin: 1.5rem 0;
+    margin: 2rem 0;
 }
 
 .info-item {
-    background: #faf8f3;
     padding: 1rem;
-    border-radius: 8px;
-    border-left: 4px solid #d4a574;
+    background: #f8f8f8;
+    border-radius: 4px;
+    border-left: 3px solid #1a1a1a;
 }
 
 .info-item strong {
-    color: #6b4423;
     display: block;
-    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
 }
 
-/* Loading State */
+/* Loading and error states */
 .loading {
     text-align: center;
-    padding: 3rem 0;
+    padding: 4rem 0;
+}
+
+.loading p {
+    color: #666666;
+    font-size: 1.1rem;
+}
+
+.error-message, .error-page {
+    text-align: center;
+    padding: 3rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.error-page h1 {
+    font-size: 3rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.error-page h2 {
+    font-size: 1.5rem;
+    color: #666666;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+.coffee-suggestions {
+    margin: 2rem 0;
+}
+
+.coffee-suggestions h3 {
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+[role="button"], button, .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[role="button"]:hover, button:hover, .btn:hover {
+    background-color: #333333;
+    transform: translateY(-1px);
+}
+
+[role="button"].secondary, button.secondary, .btn.secondary {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+}
+
+[role="button"].secondary:hover, button.secondary:hover, .btn.secondary:hover {
+    background-color: #f8f8f8;
 }
 
 /* Footer */
 footer {
-    background-color: #3c2415;
-    color: #e8d5b7;
+    background-color: #1a1a1a;
+    color: #cccccc;
     text-align: center;
     padding: 2rem 0;
-    margin-top: 3rem;
+    margin-top: 4rem;
+    border-top: 1px solid #333;
+}
+
+footer small {
+    font-size: 0.9rem;
 }
 
 /* Price indicators */
-.price-1 { color: #22c55e; } /* Green for $ */
-.price-2 { color: #eab308; } /* Yellow for $$ */
-.price-3 { color: #ef4444; } /* Red for $$$ */
+.price-1 { color: #22c55e; }
+.price-2 { color: #f59e0b; }
+.price-3 { color: #ef4444; }
 
-/* Responsive Design */
+/* Responsive design */
 @media (max-width: 768px) {
+    nav .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
     .coffee-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .info-grid {
         grid-template-columns: 1fr;
     }
     
-    header hgroup h1 {
-        font-size: 2rem;
+    .detail-image {
+        height: 250px;
+    }
+    
+    .actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .actions [role="button"] {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.75rem;
+    }
+    
+    header {
+        padding: 2rem 0 1.5rem;
     }
     
     .card-content {
         padding: 1rem;
     }
     
-    .info-grid {
-        grid-template-columns: 1fr;
+    .detail-info {
+        padding: 1.5rem;
     }
 }
 
-/* Accessibility */
-.coffee-card:focus {
-    outline: 3px solid #d4a574;
-    outline-offset: 2px;
+/* Prevent flash of unstyled content */
+body {
+    visibility: hidden;
 }
 
-/* Animation for cards loading */
-@keyframes fadeInUp {
+body.loaded {
+    visibility: visible;
+}
+
+/* Animation improvements */
+.coffee-card {
+    animation: none;
+}
+
+.coffee-grid .coffee-card {
+    opacity: 0;
+    animation: slideUp 0.4s ease forwards;
+}
+
+.coffee-grid .coffee-card:nth-child(1) { animation-delay: 0.1s; }
+.coffee-grid .coffee-card:nth-child(2) { animation-delay: 0.15s; }
+.coffee-grid .coffee-card:nth-child(3) { animation-delay: 0.2s; }
+.coffee-grid .coffee-card:nth-child(4) { animation-delay: 0.25s; }
+.coffee-grid .coffee-card:nth-child(5) { animation-delay: 0.3s; }
+.coffee-grid .coffee-card:nth-child(6) { animation-delay: 0.35s; }
+
+@keyframes slideUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -206,12 +414,52 @@ footer {
     }
 }
 
-.coffee-card {
-    animation: fadeInUp 0.5s ease forwards;
+/* Details page specific styles */
+details {
+    margin: 2rem 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 1rem;
 }
 
-.coffee-card:nth-child(2) { animation-delay: 0.1s; }
-.coffee-card:nth-child(3) { animation-delay: 0.2s; }
-.coffee-card:nth-child(4) { animation-delay: 0.3s; }
-.coffee-card:nth-child(5) { animation-delay: 0.4s; }
-.coffee-card:nth-child(6) { animation-delay: 0.5s; }
+summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+summary:hover {
+    color: #666666;
+}
+
+details[open] summary {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for better accessibility */
+a:focus, button:focus, [tabindex]:focus {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .coffee-card {
+        border: 2px solid #1a1a1a;
+    }
+    
+    .info-item {
+        border: 1px solid #1a1a1a;
+    }
+}

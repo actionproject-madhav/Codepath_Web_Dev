@@ -4,40 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Coffee Shop Details - Coffee Spots</title>
+    <meta name="description" content="Detailed information about coffee shops including hours, specialties, and atmosphere.">
+    
+    <!-- Prevent flash of unstyled content -->
+    <style>
+        body { visibility: hidden; }
+        body.loaded { visibility: visible; }
+    </style>
+    
+    <!-- External CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/js/script.js" as="script">
 </head>
 <body>
-    <nav class="container">
-        <ul>
-            <li><strong>☕ Coffee Spots</strong></li>
-        </ul>
-        <ul>
-            <li><a href="/">← Back to All Shops</a></li>
-        </ul>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><strong>☕ Coffee Spots</strong></li>
+            </ul>
+            <ul>
+                <li><a href="/">← Back to All Shops</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main class="container">
         <article id="coffee-detail">
-            <!-- Content will be loaded by JavaScript -->
             <div class="loading">
-                <p aria-busy="true">Loading coffee shop details...</p>
+                <p>Loading coffee shop details...</p>
             </div>
         </article>
     </main>
 
-    <footer class="container">
-        <small>☕ Coffee Spots - Discover your perfect brew © 2025</small>
+    <footer>
+        <div class="container">
+            <small>☕ Coffee Spots - Discover your perfect brew © 2025</small>
+        </div>
     </footer>
 
     <script src="/js/script.js"></script>
+    
+    <!-- Initialize detail page -->
     <script>
-        // Load the specific coffee shop details when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            const pathParts = window.location.pathname.split('/');
-            const shopId = pathParts[pathParts.length - 1];
-            loadCoffeeShopDetail(shopId);
+            try {
+                const pathParts = window.location.pathname.split('/').filter(part => part);
+                let shopId = null;
+                
+                // Handle different URL patterns
+                if (pathParts.includes('coffee-shops') && pathParts.length >= 2) {
+                    shopId = pathParts[pathParts.indexOf('coffee-shops') + 1];
+                } else if (pathParts.length === 1) {
+                    shopId = pathParts[0];
+                }
+                
+                if (shopId && typeof window.loadCoffeeShopDetail === 'function') {
+                    window.loadCoffeeShopDetail(shopId);
+                } else {
+                    // Fallback error handling
+                    const container = document.getElementById('coffee-detail');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="error-message">
+                                <h2>Error Loading Coffee Shop</h2>
+                                <p>We couldn't load the details for this coffee shop. Please try again or go back to the homepage.</p>
+                                <a href="/" role="button">← Back to All Shops</a>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Error initializing detail page:', error);
+                const container = document.getElementById('coffee-detail');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <h2>Loading Error</h2>
+                            <p>Sorry, there was an unexpected error. Please refresh the page or go back to the homepage.</p>
+                            <a href="/" role="button">← Back to All Shops</a>
+                        </div>
+                    `;
+                }
+                // Ensure page is still visible
+                document.body.classList.add('loaded');
+            }
         });
     </script>
+    
+    <!-- Fallback for JavaScript disabled -->
+    <noscript>
+        <style>
+            body { visibility: visible !important; }
+        </style>
+        <div class="container">
+            <div class="error-message">
+                <h2>JavaScript Required</h2>
+                <p>This page requires JavaScript to display coffee shop details. Please enable JavaScript and refresh the page.</p>
+                <a href="/" role="button">← Back to All Shops</a>
+            </div>
+        </div>
+    </noscript>
 </body>
 </html>
