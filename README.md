@@ -10,6 +10,9 @@ A modern web application showcasing the best coffee shops in the city with detai
 - Modern glassmorphism UI design
 - Fast loading with optimized images
 
+  ![Uploading Screenshot 2025-09-18 at 1.23.12 PM.png…]()
+
+
 ## Technologies Used
 
 - **Frontend**: HTML5, CSS3, JavaScript
